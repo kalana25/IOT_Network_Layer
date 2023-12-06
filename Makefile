@@ -2,11 +2,9 @@ all:say_hello generate
 install_paho:
 	@echo "Installing Paho"
 	pip3 install paho-mqtt
-copy_files:
-	@echo "File are being copied"
-	rm -r ../run
-	mkdir ../run
-	cp source/mqtt-template-lab3.py ../run
+run:
+	@echo "Running program"
+	python3 source/mqtt-template-lab3.py
 generate:
 	@echo "Creating files"
 	touch file-{1..5}.txt
