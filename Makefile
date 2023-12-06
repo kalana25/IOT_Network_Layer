@@ -4,6 +4,7 @@ install_paho:
 	pip3 install paho-mqtt
 copy_files:
 	@echo "File are being copied"
+	rm -r ../run
 	mkdir ../run
 	cp source/mqtt-template-lab3.py ../run
 generate:
