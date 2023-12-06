@@ -22,8 +22,8 @@ i2c = busio.I2C(board.SCL, board.SDA)
 
 # Uncomment your current sensor :)
 prox_sensor = adafruit_vcnl4010.VCNL4010(i2c)	# Proximity
-rgb_sensor = adafruit_tcs34725.TCS34725(i2c)	# RGB sensor
-lux_sensor = adafruit_tsl2591.TSL2591(i2c)		# High range lux sensor
+# rgb_sensor = adafruit_tcs34725.TCS34725(i2c)	# RGB sensor
+# lux_sensor = adafruit_tsl2591.TSL2591(i2c)		# High range lux sensor
 
 # Set MQTT broker and topic
 broker = "test.mosquitto.org"	# Broker 
@@ -54,16 +54,16 @@ def on_log(client, userdata, level, buf):		# Message is in buf
 
 	
 ############### Sensor section ##################	
-def get_lux():
-	lux = lux_sensor.lux
-	lux_value = round(Decimal(lux), 3) 	# Rounds the lux value to 3 decimals, and prints it
-	print('Total light: {0} lux'.format(lux_value))
-	return lux_value
+# def get_lux():
+# 	lux = lux_sensor.lux
+# 	lux_value = round(Decimal(lux), 3) 	# Rounds the lux value to 3 decimals, and prints it
+# 	print('Total light: {0} lux'.format(lux_value))
+# 	return lux_value
 	
-def get_rgb():
-	rgb_value = '{0},{1},{2}'.format(*rgb_sensor.color_rgb_bytes)
-	print('Proximity: {0}'.format(rgb_value))
-	return rgb_value
+# def get_rgb():
+# 	rgb_value = '{0},{1},{2}'.format(*rgb_sensor.color_rgb_bytes)
+# 	print('Proximity: {0}'.format(rgb_value))
+# 	return rgb_value
 	
 def get_proximity():
 	proximity = prox_sensor.proximity # The higher the value, object closer to sensor
