@@ -4,7 +4,7 @@ install_paho:
 	pip3 install paho-mqtt
 run:
 	@echo "Running program"
-	python3 source/mqtt-template-lab3.py
+	python3 source/mqtt-protocol-lunch.py
 generate:
 	@echo "Creating files"
 	touch file-{1..5}.txt
