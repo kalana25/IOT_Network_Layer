@@ -3,25 +3,17 @@ import time
 import datetime
 import paho.mqtt.client as mqtt
 import paho.mqtt.publish as publish
+from proximity_sensor import get_proximity
 
 # Using decimal to round the value for lux :)
 from decimal import Decimal
 
-# Imports for sensor
-import board
-import busio
 
 # Uncomment the correct sensor 
-import adafruit_vcnl4010 	# Proximity sensor
 import adafruit_tcs34725 	# RGB sensor
 import adafruit_tsl2591 	# High range lux sensor
 
  
-# Initialize I2C bus and sensor.
-i2c = busio.I2C(board.SCL, board.SDA)
-
-# Uncomment your current sensor :)
-prox_sensor = adafruit_vcnl4010.VCNL4010(i2c)	# Proximity
 # rgb_sensor = adafruit_tcs34725.TCS34725(i2c)	# RGB sensor
 # lux_sensor = adafruit_tsl2591.TSL2591(i2c)		# High range lux sensor
 
@@ -64,13 +56,6 @@ def on_log(client, userdata, level, buf):		# Message is in buf
 # 	rgb_value = '{0},{1},{2}'.format(*rgb_sensor.color_rgb_bytes)
 # 	print('Proximity: {0}'.format(rgb_value))
 # 	return rgb_value
-	
-def get_proximity():
-	proximity = prox_sensor.proximity # The higher the value, object closer to sensor
-	print('Proximity: {0}'.format(proximity))
-	return proximity
-	
-	
 	
 # Connect functions for MQTT
 client = mqtt.Client()
