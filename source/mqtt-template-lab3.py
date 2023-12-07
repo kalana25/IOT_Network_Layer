@@ -5,17 +5,6 @@ import paho.mqtt.client as mqtt
 import paho.mqtt.publish as publish
 from proximity_sensor import get_proximity
 
-# Using decimal to round the value for lux :)
-from decimal import Decimal
-
-
-# Uncomment the correct sensor 
-import adafruit_tcs34725 	# RGB sensor
-import adafruit_tsl2591 	# High range lux sensor
-
- 
-# rgb_sensor = adafruit_tcs34725.TCS34725(i2c)	# RGB sensor
-# lux_sensor = adafruit_tsl2591.TSL2591(i2c)		# High range lux sensor
 
 # Set MQTT broker and topic
 broker = "test.mosquitto.org"	# Broker 
@@ -44,18 +33,6 @@ def on_disconnect(client, userdata, rc):
 def on_log(client, userdata, level, buf):		# Message is in buf
     print("MQTT Log: " + str(buf))
 
-	
-############### Sensor section ##################	
-# def get_lux():
-# 	lux = lux_sensor.lux
-# 	lux_value = round(Decimal(lux), 3) 	# Rounds the lux value to 3 decimals, and prints it
-# 	print('Total light: {0} lux'.format(lux_value))
-# 	return lux_value
-	
-# def get_rgb():
-# 	rgb_value = '{0},{1},{2}'.format(*rgb_sensor.color_rgb_bytes)
-# 	print('Proximity: {0}'.format(rgb_value))
-# 	return rgb_value
 	
 # Connect functions for MQTT
 client = mqtt.Client()
