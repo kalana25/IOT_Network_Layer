@@ -126,6 +126,7 @@ logging.getLogger("coap-server").setLevel(logging.DEBUG)
 
 async def main():
     # Resource tree creation
+    print("--Server start --")
     root = resource.Site()
 
     root.add_resource(['.well-known', 'core'],
@@ -140,6 +141,7 @@ async def main():
 
     # Run forever
     await asyncio.get_running_loop().create_future()
+    print("--Server end --")
 
 if __name__ == "__main__":
     asyncio.run(main())
