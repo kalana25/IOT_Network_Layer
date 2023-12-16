@@ -9,7 +9,7 @@ install_aiocoap:
 	pip3 install --upgrade "aiocoap"
 run_mqtt_prot:
 	@echo "Running program"
-	python3 source/mqtt-protocol-lunch.py
+	python3 source/mqtt/server/mqtt-protocol-lunch.py
 run_coap_server:
 	@echo "Running coap server"
 	python3 source/coap/server/coap_server.py
