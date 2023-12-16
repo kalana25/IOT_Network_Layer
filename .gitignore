@@ -2,3 +2,4 @@
 venv/
 .env/
 env/
+sensor/__pycache__/

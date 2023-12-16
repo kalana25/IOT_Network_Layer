@@ -1,11 +1,16 @@
 import datetime
 import logging
-
 import asyncio
 
 import aiocoap.resource as resource
 from aiocoap.numbers.contentformat import ContentFormat
 import aiocoap
+
+import sys , os
+
+print(os.path.abspath(os.path.join('source','sensor')))
+sys.path.append(os.path.abspath(os.path.join('source','sensor')))
+from proximity_sensor import get_proximity
 
 class Welcome(resource.Resource):
     representations = {
@@ -115,9 +120,13 @@ class WhoAmI(resource.Resource):
             text.append("Authenticated claims of the client: %s." % ", ".join(repr(c) for c in claims))
         else:
             text.append("No claims authenticated.")
-
         return aiocoap.Message(content_format=0,
                 payload="\n".join(text).encode('utf8'))
+
+class ProximitySensorResource(resource.Resource):
+    async def render_get(self,request):
+        prox_data = get_proximity().encode('ascii')
+        return aiocoap.Message(payload=prox_data)
 
 # logging setup
 
@@ -128,7 +137,6 @@ async def main():
     # Resource tree creation
     print("--Server start --")
     root = resource.Site()
-
     root.add_resource(['.well-known', 'core'],
             resource.WKCResource(root.get_resources_as_linkheader))
     root.add_resource([], Welcome())
@@ -136,8 +144,10 @@ async def main():
     root.add_resource(['other', 'block'], BlockResource())
     root.add_resource(['other', 'separate'], SeparateLargeResource())
     root.add_resource(['whoami'], WhoAmI())
+    root.add_resource(['sensor','proximity'],ProximitySensorResource())
 
-    await aiocoap.Context.create_server_context(root)
+    await aiocoap.Context.create_server_context(site=root,bind=("192.168.1.83",3030))
+    print("Server context created")
 
     # Run forever
     await asyncio.get_running_loop().create_future()
