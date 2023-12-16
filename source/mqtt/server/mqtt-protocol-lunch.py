@@ -3,6 +3,9 @@ import time
 import datetime
 import paho.mqtt.client as mqtt
 import paho.mqtt.publish as publish
+
+import sys , os
+sys.path.append(os.path.abspath(os.path.join('source','sensor')))
 from proximity_sensor import get_proximity
 
 
@@ -50,5 +53,5 @@ client.loop_start()
 # Loop that publishes message
 while True:
 	data_to_send = get_proximity()	# Here, call the correct function from the sensor section depending on sensor
-	client.publish(pub_topic, str(data_to_send))
+	client.publish(pub_topic, data_to_send)
 	time.sleep(2.0)	# Set delay
