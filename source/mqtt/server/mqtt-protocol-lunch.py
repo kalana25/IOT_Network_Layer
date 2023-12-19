@@ -10,7 +10,7 @@ from proximity_sensor import get_proximity
 
 
 # Set MQTT broker and topic
-broker = "test.mosquitto.org"	# Broker 
+broker = "192.168.1.78"	# Broker 
 
 pub_topic = "iotproject/group788/prox"       # send messages to this topic
 
