@@ -17,7 +17,7 @@ pub_topic = "iotproject/group788/prox"       # send messages to this topic
 
 ############### MQTT section ##################
 
-# when connecting to mqtt do this;
+# Event handlers
 def on_connect(client, userdata, flags, rc):
 	if rc==0:
 		print("Connection established. Code: "+str(rc))
@@ -46,12 +46,26 @@ client.on_log = on_log
 
 # Connect to MQTT 
 print("Attempting to connect to broker " + broker)
+
+# This is the initial time take to make connection. This is considered for the 1st packet.
+time_with_connection = time.time()
+
 client.connect(broker)	# Broker address, port and keepalive (maximum period in seconds allowed between communications with the broker)
 client.loop_start()
 
 
-# Loop that publishes message
-while True:
-	data_to_send = get_proximity()	# Here, call the correct function from the sensor section depending on sensor
-	client.publish(pub_topic, data_to_send)
-	time.sleep(2.0)	# Set delay
+for count in range(5):
+    if count == 0:
+        payload = {
+			'sensor_val': get_proximity(),
+			'start_time': time_with_connection
+		}
+    else:
+        payload = {
+			'sensor_val': get_proximity(),
+			'start_time': time.time()
+		}
+    client.publish(pub_topic, payload)
+    time.sleep(2.0)
+ 
+client.disconnect()
