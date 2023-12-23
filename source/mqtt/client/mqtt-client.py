@@ -1,5 +1,5 @@
 
-import logging, time, random
+import logging, time, random, json
 from paho.mqtt import client as mqtt_client
 
 FIRST_RECONNECT_DELAY = 1
@@ -48,6 +48,8 @@ def connect_mqtt():
 
 def subscribe(client: mqtt_client):
     def on_message(client, userdata, msg):
+        data = json.loads(msg)
+        print(data)
         print(f"Received `{msg.payload}` from `{msg.topic}` topic")
 
     client.subscribe(topic)
