@@ -1,6 +1,6 @@
-import random
+
+import logging, time, random
 from paho.mqtt import client as mqtt_client
-import paho.mqtt.client as mqtt
 
 FIRST_RECONNECT_DELAY = 1
 RECONNECT_RATE = 2
@@ -8,7 +8,7 @@ MAX_RECONNECT_COUNT = 12
 MAX_RECONNECT_DELAY = 60
 
 broker = "192.168.1.78"	
-pub_topic = "iotproject/group788/prox"
+topic = "iotproject/group788/prox"
 port = 1883
 client_id = f'mqtt-benchmark-client{random.randint(0, 1000)}'
 
