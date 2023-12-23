@@ -10,5 +10,4 @@ prox_sensor = adafruit_vcnl4010.VCNL4010(i2c)	# Proximity
 
 def get_proximity() -> str:
 	proximity = prox_sensor.proximity # The higher the value, object closer to sensor
-	print('Proximity: {0}'.format(proximity))
 	return str(proximity)

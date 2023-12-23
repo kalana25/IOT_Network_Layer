@@ -26,7 +26,7 @@ def on_connect(client, userdata, flags, rc):
 		print("Connection failed. Code: " + str(rc))
 		
 def on_publish(client, userdata, mid):
-    print("Published: " + str(mid))
+    print("Published: " + str(mid),userdata,sep="\t")
 	
 def on_disconnect(client, userdata, rc):
 	if rc != 0:
