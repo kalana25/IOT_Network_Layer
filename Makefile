@@ -10,9 +10,12 @@ install_aiocoap:
 install_slixmpp:
 	@echo "Installing slixmpp"
 	pip3 install slixmpp
-run_mqtt_prot:
-	@echo "Running program"
+run_mqtt_server:
+	@echo "Running program.."
 	python3 source/mqtt/server/mqtt-protocol-lunch.py
+run_mqtt_client:
+	@echo "Running mqtt client.."
+	python3 source/mqtt/client/mqtt-client.py
 run_coap_server:
 	@echo "Running coap server"
 	python3 source/coap/server/coap_server.py
