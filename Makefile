@@ -5,8 +5,11 @@ install_paho:
 install_proxi_lib:
 	sudo pip3 install adafruit-circuitpython-vcnl4010
 install_aiocoap:
-	@echo "Installing aiocap"
+	@echo "Installing aiocoap"
 	pip3 install --upgrade "aiocoap"
+install_slixmpp:
+	@echo "Installing slixmpp"
+	pip3 install slixmpp
 run_mqtt_prot:
 	@echo "Running program"
 	python3 source/mqtt/server/mqtt-protocol-lunch.py
