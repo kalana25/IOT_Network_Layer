@@ -1,5 +1,6 @@
 # Imports for MQTT
 import time
+import json
 import datetime
 import paho.mqtt.client as mqtt
 import paho.mqtt.publish as publish
@@ -65,7 +66,8 @@ for count in range(5):
 			'sensor_val': get_proximity(),
 			'start_time': time.time()
 		}
-    client.publish(pub_topic, payload)
+    payload_str = json.dumps(payload)
+    client.publish(pub_topic, payload_str)
     time.sleep(2.0)
  
 client.disconnect()
