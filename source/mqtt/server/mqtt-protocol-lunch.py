@@ -16,8 +16,6 @@ broker = "192.168.1.78"	# Broker
 pub_topic = "iotproject/group788/prox"       # send messages to this topic
 
 
-############### MQTT section ##################
-
 # Event handlers
 def on_connect(client, userdata, flags, rc):
 	if rc==0:
@@ -26,7 +24,7 @@ def on_connect(client, userdata, flags, rc):
 		print("Connection failed. Code: " + str(rc))
 		
 def on_publish(client, userdata, mid):
-    print("Published: " + str(mid),userdata,sep="\t")
+    print("Published: " + str(mid))
 	
 def on_disconnect(client, userdata, rc):
 	if rc != 0:
