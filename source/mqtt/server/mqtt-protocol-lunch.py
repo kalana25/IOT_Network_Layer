@@ -12,8 +12,8 @@ from proximity_sensor import get_proximity
 
 # Set MQTT broker and topic
 broker = "192.168.1.78"	# Broker 
-
 pub_topic = "iotproject/group788/prox"       # send messages to this topic
+no_of_test_runs = 200
 
 
 # Event handlers
@@ -53,7 +53,7 @@ client.connect(broker)	# Broker address, port and keepalive (maximum period in s
 client.loop_start()
 
 
-for count in range(5):
+for count in range(no_of_test_runs):
     if count == 0:
         payload = {
 			'sensor_val': get_proximity(),
@@ -66,6 +66,6 @@ for count in range(5):
 		}
     payload_str = json.dumps(payload)
     client.publish(pub_topic, payload_str)
-    time.sleep(2.0)
+    time.sleep(0.1)
  
 client.disconnect()
