@@ -12,10 +12,10 @@ install_slixmpp:
 	pip3 install slixmpp
 run_mqtt_server:
 	@echo "Running program.."
-	python3 source/mqtt/server/mqtt-protocol-lunch.py
+	python3 source/mqtt/server/mqtt-server.py
 run_mqtt_client:
 	@echo "Running mqtt client.."
-	python3 source/mqtt/client/mqtt-client.py
+	python3 source/mqtt/client/mqtt-speed-bench-client.py
 run_coap_server:
 	@echo "Running coap server"
 	python3 source/coap/server/coap_server.py
