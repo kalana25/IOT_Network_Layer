@@ -11,7 +11,7 @@ from proximity_sensor import get_proximity
 
 
 # Set MQTT broker and topic
-broker = "192.168.1.78"	# Broker 
+broker = "emqx@192.168.1.83"	# Broker 
 pub_topic = "iotproject/group788/prox"       # send messages to this topic
 no_of_test_runs = 200
 
