@@ -11,8 +11,9 @@ from proximity_sensor import get_proximity
 
 
 # Set MQTT broker and topic
-broker = "emqx@192.168.1.83"	# Broker 
+broker = "192.168.1.83"	# Broker 
 pub_topic = "iotproject/group788/prox"       # send messages to this topic
+port = 1883
 no_of_test_runs = 200
 
 
@@ -49,7 +50,7 @@ print("Attempting to connect to broker " + broker)
 # This is the initial time take to make connection. This is considered for the 1st packet.
 time_with_connection = time.time()
 
-client.connect(broker)	# Broker address, port and keepalive (maximum period in seconds allowed between communications with the broker)
+client.connect(broker,port)	# Broker address, port and keepalive (maximum period in seconds allowed between communications with the broker)
 client.loop_start()
 
 
