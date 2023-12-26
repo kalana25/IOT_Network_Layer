@@ -7,7 +7,7 @@ RECONNECT_RATE = 2
 MAX_RECONNECT_COUNT = 12
 MAX_RECONNECT_DELAY = 60
 
-broker = "192.168.1.78"	
+broker = "192.168.1.83"	
 topic = "iotproject/group788/prox"
 port = 1883
 client_id = f'mqtt-benchmark-client{random.randint(0, 1000)}'
