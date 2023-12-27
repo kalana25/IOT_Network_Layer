@@ -4,7 +4,7 @@ import time, random, sys , os,logging
 import json
 
 sys.path.append(os.path.abspath(os.path.join('source','sensor')))
-from proximity_decoy_sensor import get_proximity
+from proximity_sensor import get_proximity
 
 FIRST_RECONNECT_DELAY = 1
 RECONNECT_RATE = 2
