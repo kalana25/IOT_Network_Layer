@@ -8,7 +8,7 @@ from proximity_sensor import get_proximity
 broker = "192.168.1.83"
 port = 1883
 topic = "iotproject/group788/prox"
-num_clients = 300
+num_clients = 150
 num_test_cases = 250
 
 
