@@ -9,6 +9,7 @@ python -m venv .venv
 # Activate virtual environment
 
 .venv\Scripts\activate
+source .venv/bin/activate
 
 # Deactivate virtual environment
 

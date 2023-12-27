@@ -1,14 +1,15 @@
 import paho.mqtt.client as mqtt
-import time, random, sys , os
+import time, random, sys , os, threading
 
 sys.path.append(os.path.abspath(os.path.join('source','sensor')))
-from proximity_decoy_sensor import get_proximity
+from proximity_sensor import get_proximity
 
 # Parameters
 broker = "192.168.1.83"
 port = 1883
 topic = "iotproject/group788/prox"
-num_clients = 10
+num_clients = 300
+num_test_cases = 250
 
 
 class ThroughputCalculator:
@@ -23,8 +24,8 @@ class ThroughputCalculator:
     self.total_messages = no
     
   def calculate_throughput(self):
-    percentage = self.success_messages*100/self.total_messages
-    return percentage
+    self.throughput = self.success_messages*100/self.total_messages
+    return self.throughput
 
 class Publisher:
   
@@ -37,18 +38,16 @@ class Publisher:
   def on_publish(self, client, userdata, mid):
     self.throughput_calculator.increment_messages_count()
     print(f"Message {mid} published")
-  
+    
   def __get_client_id(self):
-    self.client_id = f'mqtt-benchmark-publisher {random.randint(0, 1000)}'
-    return self.client_id
+    return f'mqtt-benchmark-publisher {self.client_id}'
   
   def set_no_of_test_cases(self, no):
     self.no_of_messages = no
     self.throughput_calculator.set_total_message_count(no)
   
   def set_message(self):
-    #  self.payload = get_proximity()
-     self.payload = f'mqtt-benchmark-publisher {random.randint(0, 1000)}'
+     self.payload = get_proximity()
   
   def __config_client(self)-> None:
     self.client = self.__get_client()
@@ -75,14 +74,42 @@ class Publisher:
       self.client.disconnect()
       self.client.loop_stop()
       
-  def __init__(self, broker, port,topic):
+  def __init__(self, client_id, broker, port,topic):
+    self.client_id = client_id
     self.broker = broker
     self.port = port
     self.topic = topic
     self.throughput_calculator = ThroughputCalculator()
 
-obj = Publisher(broker,port,topic)
-obj.set_no_of_test_cases(50)
-obj.run_client()
+# obj = Publisher(broker,port,topic)
+# obj.set_no_of_test_cases(50)
+# obj.run_client(1)
 
-
+def calculate_summary():
+  total_throughput =0
+  average_throughput =0
+  for pub in publisher_list:
+    total_throughput += pub.throughput_calculator.throughput
+  average_throughput = total_throughput/len(publisher_list)
+  loss = 100 - average_throughput
+  print("Average throughput = ",average_throughput)
+  print("Average loss = ",loss)
+  return average_throughput,loss
+    
+threads = []
+publisher_list =[ Publisher(client_id,broker,port,topic) for client_id in range(num_clients)]
+  
+for pub in publisher_list:
+  pub.set_no_of_test_cases(num_test_cases)
+  thread = threading.Thread(target=pub.run_client)
+  threads.append(thread)
+  thread.start()
+try:
+  for thread in threads:
+      thread.join()
+  print("All publishers finished")
+  calculate_summary()
+except KeyboardInterrupt:
+    print("\nStopping clients...")
+    for thread in threads:
+        thread.join()
