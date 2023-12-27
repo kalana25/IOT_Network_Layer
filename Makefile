@@ -19,6 +19,9 @@ run_mqtt_client:
 run_mqtt_bench_tp:
 	@echo "Running mqtt throughput benchmark"
 	python3 source/mqtt/server/mqtt-throughput-benchmark-server.py
+run_mqtt_bench_es:
+	@echo "Running mqtt execution speed benchmark"
+	python3 source/mqtt/server/mqtt-speed-benchmark-server.py
 run_coap_server:
 	@echo "Running coap server"
 	python3 source/coap/server/coap_server.py
