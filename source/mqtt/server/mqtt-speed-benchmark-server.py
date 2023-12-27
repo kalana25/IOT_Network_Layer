@@ -38,6 +38,7 @@ class Subscriber:
         self.client.on_connect = self.on_connect
         self.client.on_message = self.on_message
         self.client.on_disconnect = self.on_disconnect
+        self.client.on_subscribe = self.on_subscribe
 
     def set_no_of_test_cases(self, no):
         self.no_of_messages = no
@@ -66,7 +67,12 @@ class Subscriber:
             reconnect_delay = min(reconnect_delay, MAX_RECONNECT_DELAY)
             reconnect_count += 1
         logging.info("Reconnect failed after %s attempts. Exiting...", reconnect_count)
-        
+
+    def on_subscribe(self, client, userdata, mid, granted_qos):
+        print(f"Subscribed to topic: {self.topic}")
+        print(f"Initiating the server")
+        pub.run_client()
+  
     def on_message(self, client, userdata, msg):
         data = json.loads(msg.payload.decode())
         finish_time = time.time()
@@ -96,11 +102,6 @@ class Subscriber:
             difference.append(end_time-start_time)
         average_speed = sum(difference)/len(difference)
         print("Average speed", average_speed, sep="\t")
-
-
-sub = Subscriber(random.randint(0,1000),broker,port,pub_sub_topic)
-sub.set_no_of_test_cases(no_of_test_runs)
-sub.run_client()
 
 class Publisher:
     
@@ -183,6 +184,10 @@ class Publisher:
         self.port = port
         self.topic = topic
         
-# pub = Publisher(random.randint(0, 1000),broker,port,pub_sub_topic)
-# pub.set_no_of_test_cases(no_of_test_runs)
 # pub.run_client()
+pub = Publisher(random.randint(0, 1000),broker,port,pub_sub_topic)
+pub.set_no_of_test_cases(no_of_test_runs)
+
+sub = Subscriber(random.randint(0,1000),broker,port,pub_sub_topic)
+sub.set_no_of_test_cases(no_of_test_runs)
+sub.run_client()
