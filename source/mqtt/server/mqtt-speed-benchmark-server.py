@@ -13,6 +13,7 @@ MAX_RECONNECT_DELAY = 60
 
 broker = "192.168.1.78"	# Broker 
 pub_sub_topic = "iotproject/group788/prox"       # send messages to this topic
+topic_result = "iotproject/group788/benchmark/execution_speed"
 port = 1883
 no_of_test_runs = 200
 
@@ -103,6 +104,10 @@ class Subscriber:
             difference.append(end_time-start_time)
         average_speed = sum(difference)/len(difference)
         print("Average speed", average_speed, sep="\t")
+        # Now result will be publish to same broker
+        summary_pub = ResultPublisher(broker,port,topic_result)
+        summary_pub.set_message(json.dumps({'execution_speed': average_speed}))
+        summary_pub.run_client()
 
 class Publisher:
     
@@ -184,6 +189,52 @@ class Publisher:
         self.broker = broker
         self.port = port
         self.topic = topic
+
+class ResultPublisher:
+  def on_connect(self, client, userdata, flags, rc):
+    if rc == 0:
+        print("Connected to Broker!")
+    else:
+        print("Failed to connect, return code %d\n", rc)
+
+  def on_publish(self, client, userdata, mid):
+    print(f"------Benchmark result {mid} published------")
+  
+  def __get_client_id(self):
+    self.client_id = f'mqtt-benchmark-publisher {random.randint(0,1000)}'
+  
+  def __get_client(self):
+    client_id = self.__get_client_id()
+    user_data = client_id
+    self.client = mqtt.Client(client_id,userdata= user_data)
+    return self.client
+  
+  def set_message(self,data):
+     self.payload = data
+   
+  def run_client(self):
+    try:
+      self.__config_client()
+      self.client.connect(self.broker, self.port)
+      self.client.loop_start()
+      self.client.publish(self.topic, self.payload)
+      time.sleep(0.1)  # Adjust the delay between messages
+      self.client.disconnect()
+      self.client.loop_stop()
+    except KeyboardInterrupt:
+      self.client.disconnect()
+      self.client.loop_stop()
+  
+  def __config_client(self)-> None:
+    self.client = self.__get_client()
+    self.client.on_connect = self.on_connect
+    self.client.on_publish = self.on_publish
+   
+  def __init__(self, broker, port,topic):
+    self.broker = broker
+    self.port = port
+    self.topic = topic
+
 
 sub = Subscriber(random.randint(0,1000),broker,port,pub_sub_topic)
 sub.set_no_of_test_cases(no_of_test_runs)
