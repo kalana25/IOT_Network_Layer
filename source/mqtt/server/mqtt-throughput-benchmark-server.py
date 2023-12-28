@@ -5,7 +5,7 @@ sys.path.append(os.path.abspath(os.path.join('source','sensor')))
 from proximity_sensor import get_proximity
 
 # Parameters
-broker = "192.168.1.83"
+broker = "192.168.1.78"
 port = 1883
 topic = "iotproject/group788/prox"
 num_clients = 80
