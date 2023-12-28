@@ -171,7 +171,7 @@ class Publisher:
                     }
                 payload_str = json.dumps(payload)
                 self.client.publish(self.topic, payload_str)
-                time.sleep(0.1)
+                # time.sleep(0.01)
             self.client.disconnect()
             self.client.loop_stop()
             
