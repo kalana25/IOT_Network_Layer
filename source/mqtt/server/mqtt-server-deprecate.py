@@ -1,4 +1,6 @@
-# Imports for MQTT
+# This program is old version. works fine but Publisher and Subscriber has implmented in same program in oop version.
+# Everyother thing is working fine.
+
 import time
 import json
 import datetime

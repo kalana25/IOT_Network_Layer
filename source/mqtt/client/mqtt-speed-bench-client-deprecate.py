@@ -1,3 +1,6 @@
+# Don't use this. calculation is  going wrong. time difference list contains - values.
+# That problem is solved in oop version which combined publisher and subscriber in same program.
+# Unless otherwise this program working perfectly.
 
 import logging, time, random, json
 from paho.mqtt import client as mqtt_client
