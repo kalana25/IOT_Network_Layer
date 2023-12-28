@@ -23,6 +23,7 @@ class Subscriber:
         self.broker = broker
         self.port = port
         self.topic = sub_topic
+        self.pub = Publisher(random.randint(0, 1000),self.broker,self.port,self.topic)
     
     def __get_client_id(self):
         return f'mqtt-speed-bench-sub {self.client_id}'
@@ -42,6 +43,7 @@ class Subscriber:
 
     def set_no_of_test_cases(self, no):
         self.no_of_messages = no
+        self.pub.no_of_messages = no
         
     def on_connect(self, client, userdata, flags, rc):
         if rc == 0:
@@ -71,7 +73,7 @@ class Subscriber:
     def on_subscribe(self, client, userdata, mid, granted_qos):
         print(f"Subscribed to topic: {self.topic}")
         print(f"Initiating the server")
-        pub.run_client()
+        self.pub.run_client()
   
     def on_message(self, client, userdata, msg):
         data = json.loads(msg.payload.decode())
@@ -82,11 +84,10 @@ class Subscriber:
     def run_client(self):
         try:
             self.__config_client()
-            time_with_connection = time.time()
             self.client.connect(self.broker, self.port)
             self.client.subscribe(self.topic)
             self.client.loop_start()
-            while len(self.time_list) < no_of_test_runs:
+            while len(self.time_list) < self.no_of_messages:
                 pass
             self.calculate_execution_speed()
             print("Stopping client")
@@ -183,10 +184,6 @@ class Publisher:
         self.broker = broker
         self.port = port
         self.topic = topic
-        
-# pub.run_client()
-pub = Publisher(random.randint(0, 1000),broker,port,pub_sub_topic)
-pub.set_no_of_test_cases(no_of_test_runs)
 
 sub = Subscriber(random.randint(0,1000),broker,port,pub_sub_topic)
 sub.set_no_of_test_cases(no_of_test_runs)
