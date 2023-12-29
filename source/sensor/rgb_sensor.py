@@ -16,5 +16,4 @@ rgb_sensor = adafruit_tcs34725.TCS34725(i2c)	# RGB sensor
 
 def get_rgb():
 	rgb_value = '{0},{1},{2}'.format(*rgb_sensor.color_rgb_bytes)
-	print('Proximity: {0}'.format(rgb_value))
 	return rgb_value

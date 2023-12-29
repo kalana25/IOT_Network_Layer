@@ -14,5 +14,4 @@ lux_sensor = adafruit_tsl2591.TSL2591(i2c)		# High range lux sensor
 def get_lux():
 	lux = lux_sensor.lux
 	lux_value = round(Decimal(lux), 3) 	# Rounds the lux value to 3 decimals, and prints it
-	print('Total light: {0} lux'.format(lux_value))
-	return lux_value
+	return str(lux_value)
