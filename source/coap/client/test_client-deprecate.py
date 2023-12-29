@@ -1,3 +1,6 @@
+# do not use this anymore since clinet and server has to run separately. functionality works well. 
+# client and server both integrate on benchmark versions in a single program.
+
 import asyncio
 from aiocoap import *
 
