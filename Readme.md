@@ -8,7 +8,8 @@ python -m venv .venv
 
 # Activate virtual environment
 
-.venv\Scripts\activate
+.venv\Scripts\activate - Windows
+source .venv/bin/activate - MacOS
 
 # Deactivate virtual environment
 
