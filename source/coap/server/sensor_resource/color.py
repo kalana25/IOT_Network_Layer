@@ -1,4 +1,4 @@
-import sys , os
+import sys , os, json, time
 import aiocoap
 import aiocoap.resource as resource
 
@@ -7,5 +7,8 @@ from rgb_sensor import get_rgb
 
 class ColorSensorResource(resource.Resource):
     async def render_get(self,request):
-        prox_data = get_rgb().encode('ascii')
-        return aiocoap.Message(payload=prox_data)
+        rgb_data = get_rgb().encode('ascii')
+        start_time = time.time()
+        dic_object = { 'sensor_data': rgb_data, 'start_time': start_time }
+        dic_string = json.dumps(dic_object)
+        return aiocoap.Message(payload=dic_string)
