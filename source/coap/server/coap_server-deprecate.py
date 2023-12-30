@@ -11,7 +11,7 @@ import aiocoap
 
 import sys , os
 sys.path.append(os.path.abspath(os.path.join('source','sensor')))
-from proximity_sensor import get_proximity
+from proximity_decoy_sensor import get_proximity
 
 class Welcome(resource.Resource):
     representations = {
@@ -147,7 +147,7 @@ async def main():
     root.add_resource(['whoami'], WhoAmI())
     root.add_resource(['sensor','proximity'],ProximitySensorResource())
 
-    await aiocoap.Context.create_server_context(site=root,bind=("192.168.1.78",3030))
+    await aiocoap.Context.create_server_context(site=root,bind=("192.168.1.83",3030))
     print("Server context created")
 
     # Run forever
