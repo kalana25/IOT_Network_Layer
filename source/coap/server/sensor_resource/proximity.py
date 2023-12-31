@@ -10,4 +10,4 @@ class ProximitySensorResource(resource.Resource):
         prox_data = get_proximity()
         start_time = time.time()
         dic_object = { 'sensor_data': prox_data, 'start_time': start_time }
-        return aiocoap.Message(payload=json.dumps(dic_object))
+        return aiocoap.Message(payload=json.dumps(dic_object).encode('ascii'))
