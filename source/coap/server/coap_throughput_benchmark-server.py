@@ -102,4 +102,4 @@ if __name__ == "__main__":
     client.set_no_of_test_runs(no_of_test_runs)
     asyncio.run(client.start_client())
     print("Finished client...")
-    
+    asyncio.run(server.stop_server())
