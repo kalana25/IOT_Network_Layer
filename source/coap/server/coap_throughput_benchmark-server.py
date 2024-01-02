@@ -12,6 +12,7 @@ from sensor_resource.proximity import ProximitySensorResource
 from support.result_publisher import ResultPublisher
 
 no_of_test_runs = 200
+no_of_clients = 80
 host_ip = "192.168.1.83"
 port = 3030
 
@@ -64,7 +65,6 @@ class CoAPClient:
             response_str = response.payload.decode()
         self.tp_calculator.set_end_time(asyncio.get_event_loop().time())
         self.tp_calculator.calculate()
-        print("Throughput = ",self.tp_calculator.throughput)
         
 class ThroughputCalculator:
     def __init__(self) -> None:
@@ -83,7 +83,7 @@ class ThroughputCalculator:
         self.total_messages = no
         
     def calculate(self):
-        time_elapse = self.end_time - self.start_time
+        self.time_elapse = self.end_time - self.start_time
         self.throughput = self.success_message * 100/self.total_messages
         return self.throughput
 
@@ -91,15 +91,43 @@ class ThroughputCalculator:
 def start_server(server):
     asyncio.run(server.start_server())
     
+def start_client(client, no_of_test):
+    client.set_no_of_test_runs(no_of_test_runs)
+    asyncio.run(client.start_client())
+
+
+def calculate_summary(clients):
+  total_throughput =0
+  average_throughput =0
+  for cli in clients:
+    total_throughput += cli.tp_calculator.throughput
+  average_throughput = total_throughput/len(clients)
+  loss = 100 - average_throughput
+  print("Average throughput = ",average_throughput)
+  print("Average loss = ",loss)
+  return average_throughput,loss 
 
 if __name__ == "__main__":
     server = CoAPServer()
     server_thread = threading.Thread(target=start_server,args=[server])
     server_thread.start()
     time.sleep(0.1)
-    print("Starting client...")
-    client = CoAPClient(host_ip,port)
-    client.set_no_of_test_runs(no_of_test_runs)
-    asyncio.run(client.start_client())
-    print("Finished client...")
+    print("Starting clients...")
+    client_threads = []
+    clients =[CoAPClient(host_ip,port) for _ in range(no_of_clients)]
+    for client in clients:
+        thread = threading.Thread(target=start_client(client,no_of_test_runs))
+        client_threads.append(thread)
+        thread.start()
+    try:
+        for thread in client_threads:
+            thread.join()
+        calculate_summary(clients)
+        print("Finished clients...")
+            
+    except KeyboardInterrupt:
+        print("\nFinishing clients...")
+        for thread in client_threads:
+            thread.join()
+            
     asyncio.run(server.stop_server())
