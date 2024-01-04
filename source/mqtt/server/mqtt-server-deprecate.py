@@ -56,19 +56,27 @@ client.connect(broker,port)	# Broker address, port and keepalive (maximum period
 client.loop_start()
 
 
-for count in range(no_of_test_runs):
-    if count == 0:
-        payload = {
-			'sensor_val': get_proximity(),
-			'start_time': time_with_connection
-		}
-    else:
-        payload = {
-			'sensor_val': get_proximity(),
-			'start_time': time.time()
-		}
-    payload_str = json.dumps(payload)
-    client.publish(pub_topic, payload_str)
-    time.sleep(0.1)
+# for count in range(no_of_test_runs):
+#     if count == 0:
+#         payload = {
+# 			'sensor_val': get_proximity(),
+# 			'start_time': time_with_connection
+# 		}
+#     else:
+#         payload = {
+# 			'sensor_val': get_proximity(),
+# 			'start_time': time.time()
+# 		}
+#     payload_str = json.dumps(payload)
+#     client.publish(pub_topic, payload_str)
+#     time.sleep(0.1)
+while True:
+	payload = {
+		'sensor_val': get_proximity(),
+		'start_time': time.time()
+	}
+	payload_str = json.dumps(payload)
+	client.publish(pub_topic, payload_str)
+	time.sleep(0.1)
  
 client.disconnect()
