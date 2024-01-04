@@ -71,12 +71,7 @@ client.loop_start()
 #     client.publish(pub_topic, payload_str)
 #     time.sleep(0.1)
 while True:
-	payload = {
-		'sensor_val': get_proximity(),
-		'start_time': time.time()
-	}
-	payload_str = json.dumps(payload)
-	client.publish(pub_topic, payload_str)
+	client.publish(pub_topic, get_proximity())
 	time.sleep(0.1)
  
 client.disconnect()
