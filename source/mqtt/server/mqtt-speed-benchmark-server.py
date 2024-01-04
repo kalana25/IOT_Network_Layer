@@ -11,7 +11,7 @@ RECONNECT_RATE = 2
 MAX_RECONNECT_COUNT = 12
 MAX_RECONNECT_DELAY = 60
 
-broker = "192.168.0.107"	# Broker 
+broker = "192.168.1.78"	# Broker 
 pub_sub_topic = "iotproject/group788/prox"       # send messages to this topic
 topic_result = "iotproject/group788/benchmark/execution_speed"
 port = 1883
