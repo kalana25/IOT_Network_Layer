@@ -10,11 +10,11 @@ from sensor_resource.proximity import ProximitySensorResource
 from support.result_publisher import ResultPublisher
 
 no_of_test_runs = 200
-host_ip = "192.168.1.83"
+host_ip = "192.168.1.78"
 port = 3030
 
-broker = ""
-topic_result =""
+broker = "192.168.1.83"
+topic_result ="iotproject/group788/benchmark/execution_speed"
 
 class CoAPServer:
     def __init__(self) -> None:
