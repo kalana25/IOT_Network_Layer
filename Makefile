@@ -28,6 +28,9 @@ run_coap_server:
 run_coap_bench_es:
 	@echo "Running coap execution seeed bench"
 	python3 source/coap/server/coap_speed_benchmark-server.py
+run_coap_bench_tp:
+	@echo "Running coap execution seeed bench"
+	python3 source/coap/server/coap_throughput_benchmark-server.py
 run_coap_test_client:
 	@echo "Running coap test client"
 	python3 source/coap/client/test_client.py
