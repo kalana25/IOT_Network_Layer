@@ -14,6 +14,7 @@ host_ip = "192.168.1.78"
 port = 3030
 
 broker = "192.168.1.83"
+broker_port = 1883
 topic_result ="iotproject/group788/benchmark/execution_speed"
 
 class CoAPServer:
@@ -60,7 +61,7 @@ class CoAPClient:
         average_speed = self.speed_calculator.calculate_speed()
         print("Average execution speed ",average_speed)
         print("Publishing results ....")
-        summary_pub = ResultPublisher(broker,port,topic_result)
+        summary_pub = ResultPublisher(broker,broker_port,topic_result)
         summary_pub.set_message(json.dumps({'execution_speed': average_speed}))
         summary_pub.run_client()
         

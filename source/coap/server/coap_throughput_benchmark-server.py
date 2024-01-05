@@ -13,10 +13,11 @@ from support.result_publisher import ResultPublisher
 
 no_of_test_runs = 200
 no_of_clients = 80
-host_ip = "192.168.1.78"
+host_ip = "192.168.1.83"
 port = 3030
 
 broker = "192.168.1.83"
+broker_port = 1883
 topic_result ="iotproject/group788/benchmark/throughput"
 
 class CoAPServer:
